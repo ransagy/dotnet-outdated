@@ -1,4 +1,4 @@
-﻿using DotNetOutdated.Core.Services;
+using DotNetOutdated.Core.Services;
 using System.Collections.Generic;
 using System.IO.Abstractions.TestingHelpers;
 using NSubstitute;

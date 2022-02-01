@@ -1,4 +1,4 @@
-﻿using DotNetOutdated.Core.Models;
+using DotNetOutdated.Core.Models;
 using NuGet.Common;
 using NuGet.Packaging.Core;
 using NuGet.ProjectModel;

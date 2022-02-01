@@ -1,4 +1,4 @@
-﻿using DotNetOutdated.Models;
+using DotNetOutdated.Models;
 using System.Collections.Generic;
 using System.Linq;
 

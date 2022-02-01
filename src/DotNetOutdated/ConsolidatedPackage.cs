@@ -1,4 +1,4 @@
-﻿using DotNetOutdated.Models;
+using DotNetOutdated.Models;
 using NuGet.Versioning;
 using System.Collections.Generic;
 
@@ -20,7 +20,7 @@ namespace DotNetOutdated
                 return title;
             }
         }
-
+        
         public bool IsAutoReferenced { get; set; }
 
         public bool IsTransitive { get; set; }

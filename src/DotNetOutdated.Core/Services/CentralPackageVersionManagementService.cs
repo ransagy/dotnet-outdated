@@ -1,4 +1,4 @@
-﻿using NuGet.Versioning;
+using NuGet.Versioning;
 using System;
 using System.IO;
 using System.IO.Abstractions;
