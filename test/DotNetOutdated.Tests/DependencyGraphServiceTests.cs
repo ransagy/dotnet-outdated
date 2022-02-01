@@ -1,4 +1,4 @@
-﻿using DotNetOutdated.Core.Exceptions;
+using DotNetOutdated.Core.Exceptions;
 using DotNetOutdated.Core.Services;
 using System;
 using System.Collections.Generic;
@@ -23,7 +23,7 @@ namespace DotNetOutdated.Tests
 
             // Arrange
             var dotNetRunner = Substitute.For<IDotNetRunner>();
-            dotNetRunner.Run(default, default)
+            dotNetRunner.Run(default, default, default)
                 .ReturnsForAnyArgs(new RunStatus(string.Empty, string.Empty, 0))
                 .AndDoes(x =>
                 {
@@ -42,13 +42,13 @@ namespace DotNetOutdated.Tests
             var graphService = new DependencyGraphService(dotNetRunner, mockFileSystem);
 
             // Act
-            var dependencyGraph = graphService.GenerateDependencyGraph(_path);
+            var dependencyGraph = graphService.GenerateDependencyGraph(_path, -1);
 
             // Assert
             Assert.NotNull(dependencyGraph);
             Assert.Equal(3, dependencyGraph.Projects.Count);
 
-            dotNetRunner.Received().Run(XFS.Path(@"c:\"), Arg.Is<string[]>(a => a[0] == "msbuild" && a[1] == '\"' + _path + '\"'));
+            dotNetRunner.Received().Run(XFS.Path(@"c:\"), Arg.Is<string[]>(a => a[0] == "msbuild" && a[1] == '\"' + _path + '\"'), Arg.Any<int>());
         }
 
         [Fact]
@@ -58,13 +58,13 @@ namespace DotNetOutdated.Tests
 
             // Arrange
             var dotNetRunner = Substitute.For<IDotNetRunner>();
-            dotNetRunner.Run(Arg.Any<string>(), Arg.Any<string[]>())
+            dotNetRunner.Run(Arg.Any<string>(), Arg.Any<string[]>(), Arg.Any<int>())
                 .Returns(new RunStatus(string.Empty, string.Empty, 1));
 
             var graphService = new DependencyGraphService(dotNetRunner, mockFileSystem);
 
             // Assert
-            Assert.Throws<CommandValidationException>(() => graphService.GenerateDependencyGraph(_path));
+            Assert.Throws<CommandValidationException>(() => graphService.GenerateDependencyGraph(_path, -1));
         }
 
         [Fact]
@@ -75,7 +75,7 @@ namespace DotNetOutdated.Tests
             // Arrange
             var dotNetRunner = Substitute.For<IDotNetRunner>();
 
-            dotNetRunner.Run(Arg.Any<string>(), Arg.Is<string[]>(a => a[0] == "msbuild" && a[2] == "/t:Restore,GenerateRestoreGraphFile"))
+            dotNetRunner.Run(Arg.Any<string>(), Arg.Is<string[]>(a => a[0] == "msbuild" && a[2] == "/t:Restore,GenerateRestoreGraphFile"), Arg.Any<int>())
                 .Returns(new RunStatus(string.Empty, string.Empty, 0))
                 .AndDoes(x =>
                 {
@@ -94,13 +94,13 @@ namespace DotNetOutdated.Tests
             var graphService = new DependencyGraphService(dotNetRunner, mockFileSystem);
 
             // Act
-            var dependencyGraph = graphService.GenerateDependencyGraph(_solutionPath);
+            var dependencyGraph = graphService.GenerateDependencyGraph(_solutionPath, -1);
 
             // Assert
             Assert.NotNull(dependencyGraph);
             Assert.Empty(dependencyGraph.Projects);
 
-            dotNetRunner.Received().Run(_path, Arg.Is<string[]>(a => a[0] == "msbuild" && a[1] == '\"' + _solutionPath + '\"' && a[2] == "/t:Restore,GenerateRestoreGraphFile"));
+            dotNetRunner.Received().Run(_path, Arg.Is<string[]>(a => a[0] == "msbuild" && a[1] == '\"' + _solutionPath + '\"' && a[2] == "/t:Restore,GenerateRestoreGraphFile"), Arg.Any<int>());
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+using McMaster.Extensions.CommandLineUtils;
+using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -14,7 +16,7 @@ namespace DotNetOutdated.Core.Services
     /// </remarks>
     public class DotNetRunner : IDotNetRunner
     {
-        public RunStatus Run(string workingDirectory, string[] arguments)
+        public RunStatus Run(string workingDirectory, string[] arguments, int timeout)
         {
             var psi = new ProcessStartInfo("dotnet", string.Join(" ", arguments))
             {
@@ -37,7 +39,7 @@ namespace DotNetOutdated.Core.Services
                 var outputTask = ConsumeStreamReaderAsync(p.StandardOutput, timeSinceLastOutput, output);
                 var errorTask = ConsumeStreamReaderAsync(p.StandardError, timeSinceLastOutput, errors);
                 bool processExited = false;
-                const int Timeout = 20000;
+                const int Timeout = Math.Max(30000,(int)TimeSpan.FromSeconds(timeout).TotalMilliseconds);
 
                 while (true) {
                     if (p.HasExited) {

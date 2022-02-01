@@ -1,4 +1,4 @@
-﻿using System.IO.Abstractions;
+using System.IO.Abstractions;
 
 namespace DotNetOutdated.Core.Services
 {
@@ -12,12 +12,12 @@ namespace DotNetOutdated.Core.Services
             _dotNetRunner = dotNetRunner;
             _fileSystem = fileSystem;
         }
-
-        public RunStatus Restore(string projectPath)
+        
+        public RunStatus Restore(string projectPath, int timeout)
         {
             string[] arguments = new[] { "restore", $"\"{projectPath}\"" };
 
-            return _dotNetRunner.Run(_fileSystem.Path.GetDirectoryName(projectPath), arguments);
+            return _dotNetRunner.Run(_fileSystem.Path.GetDirectoryName(projectPath), arguments, timeout);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using NuGet.Versioning;
+using NuGet.Versioning;
 using System;
 using System.Collections.Generic;
 using System.IO.Abstractions;
@@ -21,7 +21,7 @@ namespace DotNetOutdated.Core.Services
             return AddPackage(projectPath, packageName, frameworkName, version, false);
         }
 
-        public RunStatus AddPackage(string projectPath, string packageName, string frameworkName, NuGetVersion version, bool noRestore, bool ignoreFailedSources = false)
+        public RunStatus AddPackage(string projectPath, string packageName, string frameworkName, NuGetVersion version, bool noRestore, int timeout, bool ignoreFailedSources = false)
         {
             if (version == null)
                 throw new ArgumentNullException(nameof(version));
@@ -38,7 +38,7 @@ namespace DotNetOutdated.Core.Services
                 arguments.Add("--ignore-failed-sources");
             }
 
-            return _dotNetRunner.Run(_fileSystem.Path.GetDirectoryName(projectPath), arguments.ToArray());
+            return _dotNetRunner.Run(_fileSystem.Path.GetDirectoryName(projectPath), arguments.ToArray(), timeout);
         }
     }
 }
