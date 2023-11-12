@@ -47,7 +47,7 @@ namespace DotNetOutdated.Tests
 
             if (noRestore)
             {
-                mockRestoreService.DidNotReceiveWithAnyArgs().Restore(default);
+                mockRestoreService.DidNotReceiveWithAnyArgs().Restore(default, default);
             }
             else
             {

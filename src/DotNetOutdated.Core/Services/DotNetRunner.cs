@@ -1,4 +1,3 @@
-using McMaster.Extensions.CommandLineUtils;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -39,7 +38,7 @@ namespace DotNetOutdated.Core.Services
                 var outputTask = ConsumeStreamReaderAsync(p.StandardOutput, timeSinceLastOutput, output);
                 var errorTask = ConsumeStreamReaderAsync(p.StandardError, timeSinceLastOutput, errors);
                 bool processExited = false;
-                const int Timeout = Math.Max(30000,(int)TimeSpan.FromSeconds(timeout).TotalMilliseconds);
+                int Timeout = Math.Max(30000,(int)TimeSpan.FromSeconds(timeout).TotalMilliseconds);
 
                 while (true) {
                     if (p.HasExited) {

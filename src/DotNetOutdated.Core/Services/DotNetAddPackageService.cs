@@ -16,11 +16,6 @@ namespace DotNetOutdated.Core.Services
             _fileSystem = fileSystem;
         }
 
-        public RunStatus AddPackage(string projectPath, string packageName, string frameworkName, NuGetVersion version)
-        {
-            return AddPackage(projectPath, packageName, frameworkName, version, false);
-        }
-
         public RunStatus AddPackage(string projectPath, string packageName, string frameworkName, NuGetVersion version, bool noRestore, int timeout, bool ignoreFailedSources = false)
         {
             if (version == null)
