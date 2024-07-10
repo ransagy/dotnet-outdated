@@ -96,15 +96,15 @@ namespace DotNetOutdated.Core.Services
 
                         // We need to ensure that we only get package versions which are compatible with the requested target framework.
                         // For development dependencies, we do not perform this check
-                        if (!isDevelopmentDependency)
-                        {
-                            var reducer = new FrameworkReducer();
+                        // if (!isDevelopmentDependency)
+                        // {
+                        var reducer = new FrameworkReducer();
 
-                            compatibleMetadataList = compatibleMetadataList
-                                .Where(meta => meta.DependencySets?.Any() != true ||
-                                               reducer.GetNearest(targetFramework, meta.DependencySets.Select(ds => ds.TargetFramework)) != null)
-                                .ToList();
-                        }
+                        compatibleMetadataList = compatibleMetadataList
+                            .Where(meta => meta.DependencySets?.Any() != true ||
+                                           reducer.GetNearest(targetFramework, meta.DependencySets.Select(ds => ds.TargetFramework)) != null)
+                            .ToList();
+                        // }
 
                         foreach (var m in compatibleMetadataList)
                         {
